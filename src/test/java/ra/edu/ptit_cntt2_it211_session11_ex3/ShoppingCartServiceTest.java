@@ -30,8 +30,8 @@ class ShoppingCartServiceTest {
     }
 
     @Test
-    @DisplayName("1. Happy Path: Thêm sản phẩm mới hoàn toàn vào giỏ hàng thành công")
-    void addProductToCart_newProductAndValidStock_saveCartSuccessfully() {
+    @DisplayName("Thêm sản phẩm mới hoàn toàn vào giỏ hàng thành công")
+    void addProductToCart_newProductAndValidStock() {
         Long userId = 1L, productId = 100L;
         Product product = new Product(productId, "iPhone 15", 1000.0, 10);
         ShoppingCart cart = new ShoppingCart(userId);
@@ -49,8 +49,8 @@ class ShoppingCartServiceTest {
     }
 
     @Test
-    @DisplayName("2. Happy Path: Thêm sản phẩm đã tồn tại trong giỏ (Cộng dồn số lượng)")
-    void addProductToCart_existingProductInCart_increaseQuantitySuccessfully() {
+    @DisplayName("Thêm sản phẩm đã tồn tại trong giỏ (Cộng dồn số lượng)")
+    void addProductToCart_existingProductInCart() {
         Long userId = 1L, productId = 100L;
         Product product = new Product(productId, "iPhone 15", 1000.0, 10);
         ShoppingCart cart = new ShoppingCart(userId);
@@ -70,8 +70,8 @@ class ShoppingCartServiceTest {
     }
 
     @Test
-    @DisplayName("3. Happy Path: Cập nhật số lượng sản phẩm trong giỏ thành công")
-    void updateProductQuantity_validQuantityAndStock_updateSuccessfully() {
+    @DisplayName("Cập nhật số lượng sản phẩm trong giỏ thành công")
+    void updateProductQuantity() {
         Long userId = 1L, productId = 100L;
         Product product = new Product(productId, "iPhone 15", 1000.0, 10);
         ShoppingCart cart = new ShoppingCart(userId);
@@ -88,8 +88,8 @@ class ShoppingCartServiceTest {
     }
 
     @Test
-    @DisplayName("4. Happy Path: Xóa sản phẩm khỏi giỏ hàng thành công")
-    void removeProductFromCart_productExistsInCart_removeSuccessfully() {
+    @DisplayName("Xóa sản phẩm khỏi giỏ hàng thành công")
+    void removeProductFromCart() {
         Long userId = 1L, productId = 100L;
         ShoppingCart cart = new ShoppingCart(userId);
         CartItem item = new CartItem(productId, 2);
@@ -104,8 +104,8 @@ class ShoppingCartServiceTest {
     }
 
     @Test
-    @DisplayName("5. Unhappy Path: Thêm sản phẩm với số lượng <= 0")
-    void addProductToCart_quantityIsZeroOrNegative_throwIllegalArgumentException() {
+    @DisplayName("Thêm sản phẩm với số lượng <= 0")
+    void addProductToCart_quantityIsZeroOrNegative() {
         assertThatThrownBy(() -> shoppingCartService.addProductToCart(1L, 100L, 0))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("Quantity must be positive");
@@ -114,8 +114,8 @@ class ShoppingCartServiceTest {
     }
 
     @Test
-    @DisplayName("6. Unhappy Path: Thêm sản phẩm vượt quá tồn kho hệ thống")
-    void addProductToCart_quantityExceedsStock_throwIllegalStateException() {
+    @DisplayName("Thêm sản phẩm vượt quá tồn kho hệ thống")
+    void addProductToCart() {
         Long userId = 1L, productId = 100L;
         Product product = new Product(productId, "iPhone 15", 1000.0, 5);
         ShoppingCart cart = new ShoppingCart(userId);
@@ -131,8 +131,8 @@ class ShoppingCartServiceTest {
     }
 
     @Test
-    @DisplayName("7. Kịch bản nâng cao: Giỏ hàng chưa tồn tại (Hệ thống tự động tạo mới giỏ)")
-    void addProductToCart_cartDoesNotExist_createNewCartAutomatically() {
+    @DisplayName("Giỏ hàng chưa tồn tại (Hệ thống tự động tạo mới giỏ)")
+    void addProductToCart_cartDoesNotExist() {
         Long userId = 99L, productId = 100L;
         Product product = new Product(productId, "MacBook", 2000.0, 10);
 
@@ -149,8 +149,8 @@ class ShoppingCartServiceTest {
     }
 
     @Test
-    @DisplayName("8. Kịch bản Phần 1 (Race Condition): Cập nhật vượt quá tồn kho mới sau khi bị người khác mua")
-    void updateProductQuantity_exceedsNewReducedStock_throwIllegalStateException() {
+    @DisplayName("Cập nhật vượt quá tồn kho mới sau khi bị người khác mua")
+    void updateProductQuantity_exceedsNewReducedStock() {
         Long userId = 1L, productId = 100L;
         Product productInDb = new Product(productId, "iPhone 15", 1000.0, 7);
         ShoppingCart cart = new ShoppingCart(userId);
